@@ -17,6 +17,7 @@ import color from '../../constants/Color';
 import {PROVIDER_GOOGLE, PROVIDER_DEFAULT} from 'react-native-maps';
 import Slider from "react-native-slider";
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import headerBackStyle from '../../components/BackToolbar/BackToolbarStyle';
 import Loader from '../../components/CustomLoader/LoaderPreview';
@@ -29,6 +30,7 @@ import {
     SLIDER_MAXIMUM_VALUE
 } from '../../constants/LocationConstant';
 import AppText from '../../constants/AppText';
+import {getNetworkAvailablity} from '../../components/InternetConnectivity';
 
 const {width, height} = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -46,7 +48,9 @@ class LocationScreen extends Component {
             value: DEFAULT_GRAY_CIRCLE_RADIUS,
             whiteRadius: DEFAULT_WHITE_CIRCLE_RADIUS,
             greenCricleRadius: DEFAULT_GREEN_CIRCLE_RADIUS,
-            isLocationLoading: true
+            isLocationLoading: true,
+            isInitialLoad: true,
+            isNetworkAvailable: false
         }
     }
 
@@ -65,77 +69,97 @@ class LocationScreen extends Component {
 
         let bodyView = null;
 
-        if (this.state.isLocationAvailable) {
-            bodyView =
-                <ScrollView style={StyleSheet.absoluteFill}>
-                    <View>
-                        <MapView
-                            style={styles.mapStyle}
-                            minZoomLevel={MINIMUM_ZOOM_LEVEL}
-                            initialRegion={region}>
+        if (!this.state.isInitialLoad) {
+            if (this.state.isNetworkAvailable) {
+                if (this.state.isLocationAvailable) {
+                    bodyView =
+                        <ScrollView style={StyleSheet.absoluteFill}>
+                            <View>
+                                <MapView
+                                    style={styles.mapStyle}
+                                    minZoomLevel={MINIMUM_ZOOM_LEVEL}
+                                    initialRegion={region}>
 
-                            <Marker
-                                pinColor={color.PIN_COLOR}
-                                coordinate={region}/>
+                                    <Marker
+                                        pinColor={color.PIN_COLOR}
+                                        coordinate={region}/>
 
-                            <Circle
-                                center={center}
-                                radius={this.state.grayCircleRadius}
-                                fillColor="rgba(255, 255, 255, 0.5)"
-                                strokeColor="rgba(0,0,0,0)"
-                                zIndex={2}
-                                strokeWidth={2}/>
+                                    <Circle
+                                        center={center}
+                                        radius={this.state.grayCircleRadius}
+                                        fillColor="rgba(255, 255, 255, 0.5)"
+                                        strokeColor="rgba(0,0,0,0)"
+                                        zIndex={2}
+                                        strokeWidth={2}/>
 
-                            <Circle
-                                center={center}
-                                radius={this.state.greenCricleRadius}
-                                fillColor="rgba(113, 233, 129, 0.6)"
-                                strokeColor="rgba(0,0,0,0)"
-                                zIndex={2}
-                                strokeWidth={2}/>
+                                    <Circle
+                                        center={center}
+                                        radius={this.state.greenCricleRadius}
+                                        fillColor="rgba(113, 233, 129, 0.6)"
+                                        strokeColor="rgba(0,0,0,0)"
+                                        zIndex={2}
+                                        strokeWidth={2}/>
 
-                            <Circle
-                                center={center}
-                                radius={this.state.whiteRadius}
-                                fillColor="rgba(255, 255, 255, 1)"
-                                strokeColor="rgba(0,0,0,0)"
-                                zIndex={2}
-                                strokeWidth={2}/>
-                        </MapView>
+                                    <Circle
+                                        center={center}
+                                        radius={this.state.whiteRadius}
+                                        fillColor="rgba(255, 255, 255, 1)"
+                                        strokeColor="rgba(0,0,0,0)"
+                                        zIndex={2}
+                                        strokeWidth={2}/>
+                                </MapView>
 
-                        <View style={styles.bottomRootStyle}>
-                            <Text style={styles.radiusLabelStyle}>{AppText.RADIUS_TEXT}</Text>
-                            <Slider
-                                value={this.state.value}
-                                minimumValue={SLIDER_MINIMUM_VALUE}
-                                maximumValue={SLIDER_MAXIMUM_VALUE}
-                                thumbTintColor='#44FFFA'
-                                minimumTrackTintColor='#44FFFA'
-                                step={1}
-                                onValueChange={value => this.setState({grayCircleRadius: parseInt(value / MINIMUM_ZOOM_LEVEL)})}/>
+                                <View style={styles.bottomRootStyle}>
+                                    <Text style={styles.radiusLabelStyle}>{AppText.RADIUS_TEXT}</Text>
+                                    <Slider
+                                        value={this.state.value}
+                                        minimumValue={SLIDER_MINIMUM_VALUE}
+                                        maximumValue={SLIDER_MAXIMUM_VALUE}
+                                        thumbTintColor='#44FFFA'
+                                        minimumTrackTintColor='#44FFFA'
+                                        step={1}
+                                        onValueChange={value => this.setState({grayCircleRadius: parseInt(value / MINIMUM_ZOOM_LEVEL)})}/>
 
-                            <View style={styles.radiusValueRootStyle}>
-                                <Text style={[{flex: 1}, styles.radiusValueStyle]}>{SLIDER_MINIMUM_VALUE} m</Text>
-                                <Text style={styles.radiusValueStyle}>{SLIDER_MAXIMUM_VALUE / 1000} km</Text>
+                                    <View style={styles.radiusValueRootStyle}>
+                                        <Text
+                                            style={[{flex: 1}, styles.radiusValueStyle]}>{SLIDER_MINIMUM_VALUE} m</Text>
+                                        <Text style={styles.radiusValueStyle}>{SLIDER_MAXIMUM_VALUE / 1000} km</Text>
+                                    </View>
+                                    <CustomButton pressButton={this.refreshLocation}
+                                                  title={AppText.REFRESH_LOCATION}/>
+                                </View>
                             </View>
-                            <CustomButton pressButton={this.refreshLocation.bind(this)}
+                        </ScrollView>
+                } else {
+                    bodyView =
+                        <View style={styles.locationNotAvailableRootStyle}>
+                            <View style={styles.locationImageRootStyle}>
+                                <MaterialIcon name="location-off" size={size.NOT_FOUND_ICON_SIZE}
+                                              color={color.BLACK}/>
+                            </View>
+                            <Text style={styles.locationNotAvailableTextStyle}>
+                                {this.state.isLocationLoading ? AppText.GETTING_LOCATION : AppText.LOCATION_NOT_AVAILABLE}
+                            </Text>
+                            <CustomButton pressButton={this.refreshLocation}
                                           title={AppText.REFRESH_LOCATION}/>
                         </View>
-                    </View>
-                </ScrollView>
-        } else {
-            bodyView =
-                <View style={styles.locationNotAvailableRootStyle}>
-                    <View style={styles.locationImageRootStyle}>
-                        <MaterialIcon name="location-off" size={size.NOT_FOUND_ICON_SIZE}
-                                      color={color.BLACK}/>
-                    </View>
-                    <Text style={styles.locationNotAvailableTextStyle}>
-                        {this.state.isLocationLoading ? AppText.GETTING_LOCATION : AppText.LOCATION_NOT_AVAILABLE}
-                    </Text>
-                    <CustomButton pressButton={this.refreshLocation.bind(this)} title={AppText.REFRESH_LOCATION}/>
-                </View>
 
+                }
+            } else {
+                bodyView =
+                    <View style={styles.locationNotAvailableRootStyle}>
+                        <View style={styles.locationImageRootStyle}>
+                            <MaterialCommunityIcons name="wifi-off" size={size.NOT_FOUND_ICON_SIZE}
+                                                    color={color.BLACK}/>
+                        </View>
+                        <Text style={styles.locationNotAvailableTextStyle}>
+                            {AppText.TURN_ON_INTERNET}
+                        </Text>
+                        <CustomButton pressButton={this.refreshLocation} title={AppText.REFRESH_LOCATION}/>
+                    </View>
+            }
+        } else {
+            bodyView = null;
         }
 
         return (
@@ -146,8 +170,8 @@ class LocationScreen extends Component {
         );
     }
 
-    refreshLocation() {
-        this.getLocation();
+    refreshLocation = () => {
+        this.networkConnectivityCheck();
     }
 
     getLocation() {
@@ -170,7 +194,26 @@ class LocationScreen extends Component {
     }
 
     componentDidMount() {
-        this.getLocation();
+        this.networkConnectivityCheck();
+    }
+
+    networkConnectivityCheck() {
+        getNetworkAvailablity(isAvailable => {
+            if (isAvailable) {
+                this.setState({
+                    isInitialLoad: false,
+                    isNetworkAvailable: true,
+                    isLocationLoading: true
+                }, () => {
+                    this.getLocation();
+                })
+            } else {
+                this.setState({
+                    isInitialLoad: false,
+                    isNetworkAvailable: false
+                })
+            }
+        });
     }
 }
 

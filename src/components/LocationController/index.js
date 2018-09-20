@@ -1,6 +1,7 @@
 import {Platform, PermissionsAndroid} from 'react-native';
 import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
 import loaderHandler from '../CustomLoader/LoaderHandler';
+import AppText from '../../constants/AppText';
 
 export function locationAccessPermission(responseCallback) {
     if (Platform.OS === "android") {
@@ -43,11 +44,11 @@ export const setLocationDialogBox = (responseCallBack) => {
     LocationServicesDialogBox.checkLocationServicesIsEnabled({
         message:
             "<h2>" +
-            "Use Location" +
+            AppText.USE_LOCATION +
             "</h2>" +
-            "This app want to change device setting" +
+            AppText.CHANGE_DEVICE_SETTING+
             "<br/><br/>" +
-            "Use gps from wifi" +
+            AppText.TURN_ON_GPS +
             "<br/><br/>",
         ok: "Yes",
         cancel: "No",
