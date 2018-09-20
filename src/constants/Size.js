@@ -1,0 +1,10 @@
+module.exports = {
+    FONT_SIZE_XXL: 30,
+    FONT_SIZE_XL: 25,
+    FONT_SIZE_L: 22,
+    FONT_SIZE_M: 18,
+    FONT_SIZE_S: 14,
+    BUTTON_TEXT_SIZE: 16,
+    BUTTON_HEIGHT: 40,
+    NOT_FOUND_ICON_SIZE: 40
+};

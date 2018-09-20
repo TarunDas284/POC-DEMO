@@ -1,0 +1,9 @@
+module.exports = {
+    WHITE: '#FFFFFF',
+    BLACK: '#000000',
+    DARK_GRAY: '#4D4D4D',
+    BUTTON_PRESS_COLOR: '#1E8E6E',
+    BUTTON_COLOR: '#2FEEE6',
+    SPLASH_SCREEN_BACKGROUND_COLOR: "#0C1138",
+    PIN_COLOR: "#44D9FF"
+};
