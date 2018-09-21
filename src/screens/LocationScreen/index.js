@@ -4,12 +4,13 @@ import {
     View,
     ScrollView,
     StyleSheet,
-    Dimensions
+    Dimensions,
+    BackHandler
 } from 'react-native';
 
 import styles from './styles';
 import {connect} from 'react-redux';
-import {RESET_PAGE} from '../../constants/NavigationActionConstant';
+import {RESET_PAGE, PREVIOUS_PAGE} from '../../constants/NavigationActionConstant';
 import {getCurrentLocation} from '../../components/LocationController';
 import MapView, {Circle, Marker} from "react-native-maps";
 import size from '../../constants/Size';
@@ -194,8 +195,22 @@ class LocationScreen extends Component {
     }
 
     componentDidMount() {
+        BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
         this.networkConnectivityCheck();
     }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+    }
+
+    onBackPress = () => {
+        const {nav} = this.props;
+        if (nav.index === 0) {
+            return false;
+        }
+        this.props.backToPreviousPage();
+        return true;
+    };
 
     networkConnectivityCheck() {
         getNetworkAvailablity(isAvailable => {
@@ -225,7 +240,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        resetPage: (page) => dispatch({type: RESET_PAGE, nextPage: page})
+        resetPage: (page) => dispatch({type: RESET_PAGE, nextPage: page}),
+        backToPreviousPage: () => dispatch({type: PREVIOUS_PAGE}),
     }
 }
 
