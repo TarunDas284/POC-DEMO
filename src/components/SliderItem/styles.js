@@ -22,7 +22,7 @@ export default StyleSheet.create({
         left: horizontalMargin,
         right: horizontalMargin,
         bottom: 18,
-        shadowColor: color.WHITE,
+        shadowColor: color.LIGHT_BLACK,
         shadowOpacity: 0.25,
         shadowOffset: { width: 0, height: 10 },
         shadowRadius: 10,
@@ -31,7 +31,7 @@ export default StyleSheet.create({
     imageContainer: {
         flex: 1,
         marginBottom: -1,
-        backgroundColor: color.WHITE,
+        backgroundColor: color.LIGHT_BLACK,
         borderRadius: entryBorderRadius
     },
     imageContainerEven: {
