@@ -22,7 +22,7 @@ export default StyleSheet.create({
         left: horizontalMargin,
         right: horizontalMargin,
         bottom: 18,
-        shadowColor: color.LIGHT_BLACK,
+        shadowColor: color.WHITE,
         shadowOpacity: 0.25,
         shadowOffset: { width: 0, height: 10 },
         shadowRadius: 10,
@@ -35,7 +35,7 @@ export default StyleSheet.create({
         borderRadius: entryBorderRadius
     },
     imageContainerEven: {
-        backgroundColor: color.LIGHT_BLACK
+        backgroundColor: color.WHITE
     },
     image: {
         ...StyleSheet.absoluteFillObject,
