@@ -8,5 +8,6 @@ module.exports = {
     TURN_ON_INTERNET: "Please turn on internet for see your current location",
     USE_LOCATION: "Use Location",
     CHANGE_DEVICE_SETTING: "This app want to change device setting",
-    TURN_ON_GPS: "Please turn on GPS for getting current location"
+    TURN_ON_GPS: "Please turn on GPS for getting current location",
+    HOME: "Home"
 };
