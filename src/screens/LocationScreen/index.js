@@ -230,7 +230,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 LocationScreen.navigationOptions = {
-    title: "Location",
+    title: AppText.LOCATION_TITLE,
     headerStyle: headerBackStyle.headerStyle,
     headerTitleStyle: headerBackStyle.headerTitleStyle,
     headerTintColor: color.DARK_GRAY

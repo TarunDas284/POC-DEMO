@@ -46,8 +46,6 @@ export const setLocationDialogBox = (responseCallBack) => {
             "<h2>" +
             AppText.USE_LOCATION +
             "</h2>" +
-            AppText.CHANGE_DEVICE_SETTING+
-            "<br/><br/>" +
             AppText.TURN_ON_GPS +
             "<br/><br/>",
         ok: "Yes",
