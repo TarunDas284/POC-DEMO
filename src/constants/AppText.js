@@ -3,7 +3,7 @@ module.exports = {
     SHOW_MY_LOCATION_BUTTON_TEXT: "Show my location",
     RADIUS_TEXT: "Radius",
     REFRESH_LOCATION: "Refresh Location",
-    LOCATION_NOT_AVAILABLE: "Location is not available",
+    LOCATION_NOT_AVAILABLE: "Location is not available, please try again",
     GETTING_LOCATION: "Getting location",
     TURN_ON_INTERNET: "Please turn on your internet to load map",
     USE_LOCATION: "Turn on GPS",
