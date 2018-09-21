@@ -87,7 +87,7 @@ class LocationScreen extends Component {
                                     <Circle
                                         center={center}
                                         radius={this.state.grayCircleRadius}
-                                        fillColor="rgba(255, 255, 255, 0.5)"
+                                        fillColor="rgba(255, 255, 255, 0.8  )"
                                         strokeColor="rgba(0,0,0,0)"
                                         zIndex={2}
                                         strokeWidth={2}/>
@@ -95,7 +95,7 @@ class LocationScreen extends Component {
                                     <Circle
                                         center={center}
                                         radius={this.state.greenCricleRadius}
-                                        fillColor="rgba(113, 233, 129, 0.6)"
+                                        fillColor="rgba(113, 233, 129, 1)"
                                         strokeColor="rgba(0,0,0,0)"
                                         zIndex={2}
                                         strokeWidth={2}/>
