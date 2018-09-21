@@ -3,7 +3,7 @@ import {View, Image, TouchableHighlight} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
-export default class SliderEntry extends Component {
+export default class SlideItem extends Component {
     static propTypes = {
         data: PropTypes.object.isRequired,
         even: PropTypes.bool,
